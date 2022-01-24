@@ -15,7 +15,7 @@ import Layout from '../components/Layout';
 import db from '../utils/db';
 import Product from '../models/Product';
 
-const Home: NextPage = (props) => {
+const Home = (props: any) => {
   const { products } = props;
 
   return (

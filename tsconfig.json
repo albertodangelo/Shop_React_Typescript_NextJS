@@ -13,7 +13,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "downlevelIteration": true
   },
   "include": [
     "next-env.d.ts",
@@ -24,7 +25,8 @@
     "utils/Store.tsx",
     "utils/Store.tsx",
     "utils/db.js",
-    "pages/api/products/index.js"
-, "pages/product/[slug].js"  ],
+    "pages/api/products/index.js",
+    "pages/product/[slug].js"
+  ],
   "exclude": ["node_modules"]
 }
