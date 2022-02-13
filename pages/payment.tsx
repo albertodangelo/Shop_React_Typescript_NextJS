@@ -2,7 +2,7 @@ import { FormControl, Radio, FormControlLabel, List, ListItem, RadioGroup, Typog
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { FormEventHandler, useContext, useEffect, useState } from 'react';
 import CheckoutWizard from '../components/CheckoutWizard';
 import Layout from '../components/Layout';
 import { Store } from '../utils/Store';
@@ -21,7 +21,7 @@ export default function Payment() {
         cart: { shippingAddress } 
     } = state ;
 
-    const submitHandler = (e) => {
+    const submitHandler = (e: any) => {
 
         snackbar.closeSnackbar();
 
@@ -31,21 +31,23 @@ export default function Payment() {
         } else {
             dispatch({type: 'SAVE_PAYMENT_METHOD', payload: paymentMethod});
             Cookies.set('paymentMethod', paymentMethod);
-            router.push('/placeOrder');
+            router.push('/placeorder');
         }
 
     }
 
     useEffect(()=> {
+
         if(!shippingAddress.address) {
             router.push('/shipping');
         } else {
             setPaymentMethod( Cookies.get('paymentMethod') || '' );
         }
-    }, [])
+    }, [router, shippingAddress])
 
      
   return <Layout title="Payment Method" description='Payment Method'>
+      <>
       <CheckoutWizard activeStep={2} ></CheckoutWizard>
         <form className={classes.form} onSubmit={submitHandler}>
             <Typography component="h1" variant="h1" >
@@ -86,5 +88,6 @@ export default function Payment() {
 
             </List>
         </form>
+        </>
   </Layout>;
 }

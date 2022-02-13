@@ -17,6 +17,21 @@ import Cookies from 'js-cookie';
 import { Controller, useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
 
+
+type Email = string;
+type Password = string;
+type ConfirmPassword = string;
+type Name = string;
+
+// This type will be used later in the form.
+type User = {
+  name: Name;
+  email: Email;
+  password: Password;
+  confirmPassword: ConfirmPassword;
+};
+
+
 export default function Register() {
   const classes = useStyles();
 
@@ -30,7 +45,7 @@ export default function Register() {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm<User>();
 
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
@@ -46,7 +61,13 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState(''); */
 
-  const submitHandler = async ({ name, email, password, confirmPassword }) => {
+  const submitHandler = async (data:User) => {
+
+    const name = data.name;
+    const email = data.email;
+    const password = data.password;
+    const confirmPassword = data.confirmPassword;
+
     /*  e.preventDefault(); */
     closeSnackbar();
     if (password !== confirmPassword) {

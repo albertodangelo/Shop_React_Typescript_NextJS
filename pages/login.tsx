@@ -17,14 +17,25 @@ import Cookies from 'js-cookie';
 import { Controller, useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
 
+type Email = string;
+type Password = string;
+
+// This type will be used later in the form.
+type User = {
+  email: Email;
+  password: Password;
+};
+
 export default function Login() {
   const classes = useStyles();
+
+  
 
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm<User>();
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const router = useRouter();
@@ -41,14 +52,19 @@ export default function Login() {
     if (userInfo) {
       router.push(String(redirect));
     }
-  }, []);
+  }, [router,userInfo, redirect]);
   /* 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
  */
-  const submitHandler = async ({ email, password }) => {
+  const submitHandler = async (data:User) => {
     /*     e.preventDefault();
      */
+    
+    console.log(data.email)
+    const email = data.email;
+    const password = data.password;
+
     closeSnackbar();
     try {
       const { data } = await axios.post('/api/users/login', {

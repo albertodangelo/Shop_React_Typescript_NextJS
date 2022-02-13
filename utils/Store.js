@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { createContext, useReducer } from 'react';
+import ShippingAddress from '../types/ShippingAddress';
 
 export const Store = createContext();
 const initialState = {
@@ -10,6 +11,9 @@ const initialState = {
       : [],
     shippingAddress: Cookies.get('shippingAddress')
       ? JSON.parse(Cookies.get('shippingAddress'))
+      : {},
+    paymentMethod: Cookies.get('paymentMethod')
+      ? Cookies.get('paymentMethod')
       : {},
   },
   userInfo: Cookies.get('userInfo')

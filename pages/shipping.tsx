@@ -5,31 +5,50 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Layout from '../components/Layout';
 import useStyles from '../utils/styles';
 import { Store } from '../utils/Store';
 import Cookies from 'js-cookie';
 import { Controller, useForm } from 'react-hook-form';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import CheckoutWizard from '../components/CheckoutWizard';
+
+
+type FullName = string;
+type Address = string;
+type City = string;
+type Country = string;
+type PostalCode = string;
+
+// This type will be used later in the form.
+type ShippingDetails = {
+  fullName: FullName;
+  address: Address;
+  city: City;
+  postalCode: PostalCode;
+  country: Country
+}
+
 
 export default function Shipping() {
   const classes = useStyles();
   const router = useRouter();
 
+  
   const {
     handleSubmit,
     control,
     formState: { errors },
     setValue,
-  } = useForm();
+  } = useForm<ShippingDetails>();
 
   const { state, dispatch } = useContext(Store);
   const {
     userInfo,
     cart: { shippingAddress },
   } = state;
+
 
   useEffect(() => {
     if (!userInfo) {
@@ -40,9 +59,16 @@ export default function Shipping() {
     setValue('city', shippingAddress.city);
     setValue('postalCode', shippingAddress.postalCode);
     setValue('country', shippingAddress.country);
-  }, []);
+  }, [router, setValue, shippingAddress, userInfo]);
 
-  const submitHandler = ({ fullName, address, city, postalCode, country }) => {
+  const submitHandler = (data:ShippingDetails) => {
+    
+    const fullName = data.fullName;
+    const address = data.address;
+    const city = data.city;
+    const postalCode = data.postalCode;
+    const country = data.country;
+    
     dispatch({
       type: 'SAVE_SHIPPING_ADRESS',
       payload: { fullName, address, city, postalCode, country },
@@ -55,6 +81,7 @@ export default function Shipping() {
   };
   return (
     <Layout title="Shipping Address">
+      <>
       <CheckoutWizard activeStep={1} />
       <form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
         <Typography component="h1" variant="h1">
@@ -219,6 +246,7 @@ export default function Shipping() {
           </ListItem>
         </List>
       </form>
+      </>
     </Layout>
   );
 }
