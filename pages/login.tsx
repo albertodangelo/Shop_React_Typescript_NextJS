@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { Controller, useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
+import { getError } from '../utils/errors';
 
 type Email = string;
 type Password = string;
@@ -74,11 +75,12 @@ export default function Login() {
       dispatch({ type: 'USER_LOGIN', payload: data });
       Cookies.set('userInfo', JSON.stringify(data));
       router.push(String(redirect) || '/');
-      alert('success login');
+      // alert('success login');
+   
     } catch (err: any) {
-      //alert(err.response.data ? err.response.data.message : err.message);
+   
       enqueueSnackbar(
-        err.response.data ? err.response.data.message : err.message,
+        getError(err),
         {
           variant: 'error',
         }

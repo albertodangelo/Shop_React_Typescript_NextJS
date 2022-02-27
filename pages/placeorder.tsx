@@ -57,7 +57,7 @@ function PlaceOrder() {
     if(cartItems.length === 0) {
       router.push('/cart');
     }
-  }, [paymentMethod, router, cartItems]);
+  }, [paymentMethod]);
 
 
   const placeOrderHandler = async () => {
@@ -93,7 +93,7 @@ function PlaceOrder() {
   }
 
   return (
-    <Layout title="Shopping Cart">
+    <Layout title="Place Order">
       <>
       <CheckoutWizard activeStep={3}></CheckoutWizard>
 

@@ -46,8 +46,11 @@ export default function Layout({ title, description, children }: Props) {
     setAnchorEl(e.currentTarget);
   };
 
-  const handleMenuCloseHandler = (e: any) => {
+  const handleMenuCloseHandler = (e: any, redirect: any) => {
     setAnchorEl(null); // closes Menu
+    if(redirect) {
+      router.push(redirect);
+    }
   };
 
   const logoutClickHandler = () => {
@@ -157,11 +160,18 @@ export default function Layout({ title, description, children }: Props) {
                     open={Boolean(anchorEl)}
                     onClose={handleMenuCloseHandler}
                   >
-                    <MenuItem onClick={handleMenuCloseHandler}>
+                    <MenuItem onClick={(e) => handleMenuCloseHandler(e, '/profile')}>
                       Profile
                     </MenuItem>
-                    <MenuItem onClick={handleMenuCloseHandler}>
-                      My Account
+                    { userInfo.isAdmin && (
+                      <MenuItem onClick={(e) => handleMenuCloseHandler(e, '/admin/dashboard')}>
+                        Dashboard
+                      </MenuItem>
+                    )
+
+                    }
+                    <MenuItem onClick={ (e) => handleMenuCloseHandler(e, '/order-history')}>
+                      Order History
                     </MenuItem>
                     <MenuItem onClick={logoutClickHandler}>Loggout</MenuItem>
                   </Menu>

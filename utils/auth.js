@@ -37,4 +37,21 @@ const isAuth = async (req, res, next ) => {
   }
 
 }
-export { signToken, isAuth };
+
+const isAdmin = async (req, res, next ) => {
+
+
+  console.log("Is Admin " , req.user);
+  
+
+  if(req.user.isAdmin === 'true') {
+    
+    
+        next();
+    
+  } else {
+    res.status(401).send({ message: 'User is not admin'})
+  }
+
+}
+export { signToken, isAuth, isAdmin };
