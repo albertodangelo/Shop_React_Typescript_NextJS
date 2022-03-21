@@ -79,7 +79,6 @@ function Order({ params }) {
     taxPrice,
     shippingPrice,
     totalPrice,
-    slug,
     isPaid,
     paidAt,
     isDelivered,

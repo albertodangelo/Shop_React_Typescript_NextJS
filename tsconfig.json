@@ -27,6 +27,6 @@
     "utils/db.js",
     "pages/api/products/index.js",
     "pages/product/[slug].js"
-, "pages/shipping.js", "pages/order-history.js"  ],
+, "pages/shipping.js", "pages/order-history.js", "pages/admin/product/[id].js"  ],
   "exclude": ["node_modules"]
 }
